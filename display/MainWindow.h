@@ -25,6 +25,8 @@ private:
 	kmMat4 model, view, projection, mvp, vp, mv;
 	int frame;
 	float lightAng, camAng;
+	Hexagon * oneHexagon;
+	SimpleShaderProgram * simpleShader;
 };
 
 #endif /* MAINWINDOW_H_ */

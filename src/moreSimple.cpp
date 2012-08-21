@@ -20,7 +20,9 @@
 
 #endif //NOT  __FOR_RPi_noX__
 
-
+#include "DrawableObject.h"
+#include "Hexagon.h"
+#include "SimpleShaderProgram.h"
 #include "MainWindow.h"
 extern "C" {
 #include "input.h"

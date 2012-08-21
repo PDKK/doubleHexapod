@@ -12,9 +12,13 @@
 
 class Hexagon: public DrawableObject {
 public:
-	Hexagon(char * vert, char * frag);
+	Hexagon();
 	virtual ~Hexagon();
-	void draw();
+	kmMat4 * getModelMatrix();
+	GLfloat * getVertexData();
+	GLfloat * getColorData();
+private:
+	kmMat4 model;
 };
 
 #endif /* HEXAGON_H_ */

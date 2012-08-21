@@ -8,21 +8,20 @@
 #ifndef DRAWABLEOBJECT_H_
 #define DRAWABLEOBJECT_H_
 
+#include <EGL/egl.h>
+#include <GLES2/gl2.h>
+#include "kazmath.h"
+
 class DrawableObject {
 public:
-	DrawableObject(char * vert, char * frag);
+	DrawableObject();
 	virtual ~DrawableObject();
+	virtual GLfloat * getVertexData() = 0;
+	virtual GLfloat * getColorData() = 0;
+	virtual kmMat4 * getModelMatrix() = 0;
 protected:
 
-    GLint program;
-    GLint vert_attrib;
-    GLint tex_attrib;
-    GLint norm_attrib;
-    GLint mvp_uniform;
-    GLint mv_uniform;
-    GLint tex_uniform;
-    GLint lightDir_uniform;
-    GLint viewDir_uniform;
+
 
 };
 

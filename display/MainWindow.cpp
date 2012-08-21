@@ -11,6 +11,9 @@ extern "C" {
 #include "input.h"
 #include "keys.h"
 }
+#include "DrawableObject.h"
+#include "Hexagon.h"
+#include "SimpleShaderProgram.h"
 #include "MainWindow.h"
 
 
@@ -21,6 +24,8 @@ extern struct joystick_t *joy1;
 
 MainWindow::MainWindow() {
 	// TODO Auto-generated constructor stub
+	oneHexagon = new Hexagon();
+	simpleShader = new SimpleShaderProgram();
 
 }
 
@@ -81,8 +86,8 @@ void MainWindow::initialise() {
 	// we don't want to draw the back of triangles
 	// the blending is set up for glprint but disabled
 	// while not in use
-	glCullFace(GL_BACK);
-	glEnable(GL_CULL_FACE);
+	//glCullFace(GL_BACK);
+	//glEnable(GL_CULL_FACE);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
@@ -132,7 +137,7 @@ void MainWindow::render() {
     kmMat4Assign(&vp, &projection);
     kmMat4Multiply(&vp, &vp, &view);
 
-
+    simpleShader->draw(oneHexagon,&view,&projection);
     //drawDoublePod(&pod);
 
     // see printf documentation for the formatting of variables...
