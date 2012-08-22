@@ -106,12 +106,9 @@
 								<option id="gnu.cpp.compiler.exe.release.option.optimization.level.158078406" name="Optimization Level" superClass="gnu.cpp.compiler.exe.release.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.exe.release.option.debugging.level.1255038019" name="Debug Level" superClass="gnu.cpp.compiler.exe.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1629671361" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/moreSimple/display}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/moreSimple/kazmath}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/moreSimple/input}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/doubleHexapod/display}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/doubleHexapod/input}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/doubleHexapod/kazmath}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/doubleHexapod/display}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.2105998125" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -119,10 +116,8 @@
 								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.exe.release.option.optimization.level.1771075906" name="Optimization Level" superClass="gnu.c.compiler.exe.release.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.exe.release.option.debugging.level.2006216877" name="Debug Level" superClass="gnu.c.compiler.exe.release.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.2058186671" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/moreSimple/kazmath}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/moreSimple/display}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/moreSimple/input}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/doubleHexapod/display}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/doubleHexapod/input}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/doubleHexapod/kazmath}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.misc.other.1239204628" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 -std=gnu99" valueType="string"/>

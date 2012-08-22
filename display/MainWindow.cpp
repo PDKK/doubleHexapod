@@ -17,15 +17,8 @@ extern "C" {
 #include "MainWindow.h"
 
 
-
-extern bool *keys;
-extern int *mouse;
-extern struct joystick_t *joy1;
-
 MainWindow::MainWindow() {
 	// TODO Auto-generated constructor stub
-	oneHexagon = new Hexagon();
-	simpleShader = new SimpleShaderProgram();
 
 }
 
@@ -37,7 +30,6 @@ void MainWindow::initialise() {
 	float deltaMove;
 	GLfloat size, aspectRatio;
 
-
 	std::cout << "Context init ..." << std::endl;
 
 	// creates a window and GLES context
@@ -45,11 +37,18 @@ void MainWindow::initialise() {
 		exit(-1);
 	std::cout << "Context Ok" << std::endl;
 
-
+	oneHexagon = new Hexagon();
+	simpleShader = new SimpleShaderProgram();
 
 	// all the shaders have at least texture unit 0 active so
 	// activate it now and leave it active
 	glActiveTexture(GL_TEXTURE0);
+
+	// projection matrix, as distance increases
+	// the way the model is drawn is effected
+	kmMat4Identity(&projection);
+	kmMat4PerspectiveProjection(&projection, 45,
+			(float) getDisplayWidth() / getDisplayHeight(), 0.1, 20);
 
 	kmMat4Identity(&view);
 
@@ -72,12 +71,6 @@ void MainWindow::initialise() {
 	// the view and projection
 	kmMat4Assign(&vp, &projection);
 	kmMat4Multiply(&vp, &vp, &view);
-
-	// projection matrix, as distance increases
-	// the way the model is drawn is effected
-	kmMat4Identity(&projection);
-	kmMat4PerspectiveProjection(&projection, 45,
-			(float) getDisplayWidth() / getDisplayHeight(), 0.1, 20);
 
 	glViewport(0, 0, getDisplayWidth(), getDisplayHeight());
 	// initialises glprint's matrix, shader and texture
@@ -105,45 +98,45 @@ void MainWindow::initialise() {
 
 void MainWindow::render() {
 
-    float rad;		// radians of rotation based on frame counter
-    kmMat4 scaleMatrix;
+	float rad;		// radians of rotation based on frame counter
+	kmMat4 scaleMatrix;
 
-    // clear the colour (drawing) and depth sort back (offscreen) buffers
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// clear the colour (drawing) and depth sort back (offscreen) buffers
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // count the frame and base a rotation on it.
-    frame++;
-    rad = frame * (0.0175f);
+	// count the frame and base a rotation on it.
+	frame++;
+	rad = frame * (0.0175f);
 
-    // rotate the light direction depending on lightAng
-    lightDir.x=cos(lightAng/10.);
-    lightDir.z=sin(lightAng/10.);
-    lightDir.y=0;
+	// rotate the light direction depending on lightAng
+	lightDir.x = cos(lightAng / 10.);
+	lightDir.z = sin(lightAng / 10.);
+	lightDir.y = 0;
 
+	pEye.x = cos(camAng / 10.) * 7.;
+	pEye.y = sin(camAng / 10.) * 7.;
+	pEye.z = 5;
 
-    pEye.x=cos(camAng/10.)*7.;
-    pEye.y=sin(camAng/10.)*7.;
-    pEye.z=5;
+	// recalculate the view direction vector used by lighting
+	kmVec3Subtract(&viewDir, &pEye, &pCenter);
+	kmVec3Normalize(&viewDir, &viewDir);
 
-    // recalculate the view direction vector used by lighting
-    kmVec3Subtract(&viewDir,&pEye,&pCenter);
-    kmVec3Normalize(&viewDir,&viewDir);
+	// update view matrix for new cam position
+	kmMat4LookAt(&view, &pEye, &pCenter, &pUp);
 
-    // update view matrix for new cam position
-    kmMat4LookAt(&view, &pEye, &pCenter, &pUp);
+	// these two matrices are pre combined for use with each model render
+	// the view and projection
+	kmMat4Assign(&vp, &projection);
+	kmMat4Multiply(&vp, &vp, &view);
 
-    // these two matrices are pre combined for use with each model render
-    // the view and projection
-    kmMat4Assign(&vp, &projection);
-    kmMat4Multiply(&vp, &vp, &view);
+	simpleShader->draw(oneHexagon, &view, &projection);
+	//drawDoublePod(&pod);
 
-    simpleShader->draw(oneHexagon,&view,&projection);
-    //drawDoublePod(&pod);
-
-    // see printf documentation for the formatting of variables...
-    glPrintf(100, 20, "frame=%i", frame);
-    glPrintf(100, 40, "mouse %i  %i   %i", mouse[0],mouse[1],mouse[2]);
-	glPrintf(100, 60, "joystick %i,%i  %i",joy1->axis[0],joy1->axis[1],joy1->buttons);
+	// see printf documentation for the formatting of variables...
+	glPrintf(100, 20, "frame=%i", frame);
+	//glPrintf(100, 40, "mouse %i  %i   %i", getMouse()[0], getMouse()[1], getMouse()[2]);
+	//glPrintf(100, 60, "joystick %i,%i  %i", getJoystick(1)->axis[0], getJoystick(1)->axis[1],
+	//		getJoystick(1)->buttons);
 	// swap the front (visible) buffer for the back (offscreen) buffer
 	swapBuffers();
 

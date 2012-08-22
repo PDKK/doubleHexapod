@@ -42,10 +42,14 @@ SimpleShaderProgram::SimpleShaderProgram() {
 	GLint link_ok = GL_FALSE;
 
 	GLuint vs, fs;
-	if ((vs = createShader(vertexShader, GL_VERTEX_SHADER)) == 0)
+	if ((vs = createShader(vertexShader, GL_VERTEX_SHADER)) == 0) {
+
 		throw new DisplayException("");
-	if ((fs = createShader(fragmentShader, GL_FRAGMENT_SHADER)) == 0)
+	}
+	if ((fs = createShader(fragmentShader, GL_FRAGMENT_SHADER)) == 0) {
+
 		throw new DisplayException("");
+	}
 
 	program = glCreateProgram();
 	glAttachShader(program, vs);
@@ -53,7 +57,7 @@ SimpleShaderProgram::SimpleShaderProgram() {
 	glLinkProgram(program);
 	glGetProgramiv(program, GL_LINK_STATUS, &link_ok);
 	if (!link_ok) {
-		//print_log(program);
+		printLog(program);
 		throw new DisplayException("glLinkProgram");
 	}
 
@@ -85,10 +89,8 @@ void SimpleShaderProgram::draw(DrawableObject * obj, kmMat4 * viewMatrix, kmMat4
     // This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
     // (which currently contains model * view).
     kmMat4Multiply(&mvpMatrix, viewMatrix, obj->getModelMatrix());
-
-    // This multiplies the modelview matrix by the projection matrix, and stores the result in the MVP matrix
-    // (which now contains model * view * projection).
     kmMat4Multiply(&mvpMatrix, projectionMatrix, &mvpMatrix);
+
 
     glUniformMatrix4fv(mvp_uniform, 1, false, mvpMatrix.mat);
     glDrawArrays(GL_TRIANGLES, 0, 3);

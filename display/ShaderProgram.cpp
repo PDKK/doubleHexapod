@@ -17,6 +17,8 @@ GLuint ShaderProgram::createShader(const GLchar* source, GLenum type) {
 	GLuint res = glCreateShader(type);
 	const GLchar *sources[] = {
 	// Define GLSL version
+
+			source,
 #ifdef GL_ES_VERSION_2_0
 			"#version 100\n"
 #else
@@ -37,23 +39,47 @@ GLuint ShaderProgram::createShader(const GLchar* source, GLenum type) {
 			// Ignore GLES 2 precision specifiers:
 			"#define lowp   \n" "#define mediump\n" "#define highp  \n"
 #endif
-			,
-			source
+
 		};
-	glShaderSource(res, 3, sources, NULL);
+	glShaderSource(res, 1, sources, NULL);
 
 
 	glCompileShader(res);
 	GLint compile_ok = GL_FALSE;
 	glGetShaderiv(res, GL_COMPILE_STATUS, &compile_ok);
 	if (compile_ok == GL_FALSE) {
-		//print_log(res);
+		printLog(res);
 		glDeleteShader(res);
 		return 0;
 	}
 
 	return res;
 }
+
+void ShaderProgram::printLog(GLuint object)
+{
+    GLint log_length = 0;
+    if (glIsShader(object))
+        glGetShaderiv(object, GL_INFO_LOG_LENGTH, &log_length);
+    else if (glIsProgram(object))
+        glGetProgramiv(object, GL_INFO_LOG_LENGTH, &log_length);
+    else {
+        std::cerr <<  "printlog: Not a shader or a program\n";
+        return;
+    }
+
+    char *log = new char[log_length];
+
+    if (glIsShader(object))
+        glGetShaderInfoLog(object, log_length, NULL, log);
+    else if (glIsProgram(object))
+        glGetProgramInfoLog(object, log_length, NULL, log);
+
+    std::cerr << log;
+    delete[] log;
+}
+
+
 ShaderProgram::ShaderProgram() {
 
 

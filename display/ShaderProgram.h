@@ -16,6 +16,7 @@ public:
 	void draw();
 protected:
 	GLuint createShader(const GLchar* source, GLenum type);
+	void printLog(const GLuint obj);
 
     GLint program;
     GLint vert_attrib;
