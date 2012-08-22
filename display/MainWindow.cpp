@@ -71,6 +71,7 @@ void MainWindow::initialise() {
 	// the view and projection
 	kmMat4Assign(&vp, &projection);
 	kmMat4Multiply(&vp, &vp, &view);
+	std::cout << "Screen dimensions" << getDisplayWidth() << "," << getDisplayHeight();
 
 	glViewport(0, 0, getDisplayWidth(), getDisplayHeight());
 	// initialises glprint's matrix, shader and texture

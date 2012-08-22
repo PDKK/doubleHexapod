@@ -74,14 +74,14 @@ void SimpleShaderProgram::draw(DrawableObject * obj, kmMat4 * viewMatrix, kmMat4
 
     // Pass in the position information
 
-    glVertexAttribPointer(vert_attrib, 3, GL_FLOAT, false,
+    glVertexAttribPointer(vert_attrib, 3, GL_FLOAT, GL_FALSE,
             3*sizeof(float), obj->getVertexData());
 
     glEnableVertexAttribArray(vert_attrib);
 
     // Pass in the color information
 
-    glVertexAttribPointer(color_attrib, 4, GL_FLOAT, false,
+    glVertexAttribPointer(color_attrib, 4, GL_FLOAT, GL_FALSE,
     		4*sizeof(float), obj->getColorData());
 
     glEnableVertexAttribArray(color_attrib);
@@ -91,8 +91,8 @@ void SimpleShaderProgram::draw(DrawableObject * obj, kmMat4 * viewMatrix, kmMat4
     kmMat4Multiply(&mvpMatrix, viewMatrix, obj->getModelMatrix());
     kmMat4Multiply(&mvpMatrix, projectionMatrix, &mvpMatrix);
 
-
-    glUniformMatrix4fv(mvp_uniform, 1, false, mvpMatrix.mat);
+    kmMat4Identity(&mvpMatrix);
+    glUniformMatrix4fv(mvp_uniform, 1, GL_FALSE, mvpMatrix.mat);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
